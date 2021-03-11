@@ -1,6 +1,6 @@
-# Yamux
+# Remux
 
-A stream multiplexer over reliable, ordered connections such as TCP/IP.
+A yamux deriviative stream multiplexer over reliable, ordered connections such as TCP/IP.
 Implements https://github.com/hashicorp/yamux/blob/master/spec.md
 
 ## License
