@@ -12,7 +12,7 @@ use futures::{channel::mpsc, prelude::*};
 use std::{net::{Ipv4Addr, SocketAddr, SocketAddrV4}, sync::Arc};
 use tokio::{net::{TcpStream, TcpListener}, task};
 use tokio_util::compat::TokioAsyncReadCompatExt;
-use yamux::{Config, Connection, Mode};
+use remux::{Config, Connection, Mode};
 
 async fn roundtrip(address: SocketAddr, nstreams: usize, data: Arc<Vec<u8>>) {
     let listener = TcpListener::bind(&address).await.expect("bind");
@@ -20,7 +20,7 @@ async fn roundtrip(address: SocketAddr, nstreams: usize, data: Arc<Vec<u8>>) {
 
     let server = async move {
         let socket = listener.accept().await.expect("accept").0.compat();
-        yamux::into_stream(Connection::new(socket, Config::default(), Mode::Server))
+        remux::into_stream(Connection::new(socket, Config::default(), Mode::Server))
             .try_for_each_concurrent(None, |mut stream| async move {
                 log::debug!("S: accepted new stream");
                 let mut len = [0; 4];
@@ -41,7 +41,7 @@ async fn roundtrip(address: SocketAddr, nstreams: usize, data: Arc<Vec<u8>>) {
     let (tx, rx) = mpsc::unbounded();
     let conn = Connection::new(socket, Config::default(), Mode::Client);
     let mut ctrl = conn.control();
-    task::spawn(yamux::into_stream(conn).for_each(|_| future::ready(())));
+    task::spawn(remux::into_stream(conn).for_each(|_| future::ready(())));
     for _ in 0 .. nstreams {
         let data = data.clone();
         let tx = tx.clone();
@@ -58,7 +58,7 @@ async fn roundtrip(address: SocketAddr, nstreams: usize, data: Arc<Vec<u8>>) {
             log::debug!("C: {}: read {} bytes", stream.id(), frame.len());
             assert_eq!(&data[..], &frame[..]);
             tx.unbounded_send(1).expect("unbounded_send");
-            Ok::<(), yamux::ConnectionError>(())
+            Ok::<(), remux::ConnectionError>(())
         });
     }
     let n = rx.take(nstreams).fold(0, |acc, n| future::ready(acc + n)).await;

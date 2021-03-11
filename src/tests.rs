@@ -205,7 +205,7 @@ fn prop_send_recv_half_closed() {
     QuickCheck::new().tests(7).quickcheck(prop as fn(_))
 }
 
-/// This test simulates two endpoints of a Yamux connection which may be unable to
+/// This test simulates two endpoints of a Remux connection which may be unable to
 /// write simultaneously but can make progress by reading. If both endpoints
 /// don't read in-between trying to finish their writes, a deadlock occurs.
 //
@@ -249,7 +249,7 @@ fn write_deadlock() {
     let client = Connection::new(client_endpoint, Config::default(), Mode::Client);
     let mut ctrl = client.control();
 
-    // Continuously advance the Yamux connection of the client in a background task.
+    // Continuously advance the Remux connection of the client in a background task.
     pool.spawner().spawn_obj(
         crate::into_stream(client).for_each(|_| {
             panic!("Unexpected inbound stream for client");

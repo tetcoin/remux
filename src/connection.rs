@@ -105,7 +105,7 @@ use futures::{
     prelude::*,
     stream::{Fuse, FusedStream}
 };
-use nohash_hasher::IntMap;
+use nohash::IntMap;
 use std::{fmt, sync::Arc, task::{Context, Poll}};
 
 pub use control::Control;
@@ -153,7 +153,7 @@ impl fmt::Display for Id {
     }
 }
 
-/// A Yamux connection object.
+/// A Remux connection object.
 ///
 /// Wraps the underlying I/O resource and makes progress via its
 /// [`Connection::next_stream`] method which must be called repeatedly
@@ -936,7 +936,7 @@ impl<T> Drop for Connection<T> {
     }
 }
 
-/// Turn a Yamux [`Connection`] into a [`futures::Stream`].
+/// Turn a Remux [`Connection`] into a [`futures::Stream`].
 pub fn into_stream<T>(c: Connection<T>) -> impl futures::stream::Stream<Item = Result<Stream>>
 where
     T: AsyncRead + AsyncWrite + Unpin

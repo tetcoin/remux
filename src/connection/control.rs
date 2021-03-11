@@ -15,9 +15,9 @@ use super::ControlCommand;
 
 type Result<T> = std::result::Result<T, ConnectionError>;
 
-/// The Yamux `Connection` controller.
+/// The Remux `Connection` controller.
 ///
-/// While a Yamux connection makes progress via its `next_stream` method,
+/// While a Remux connection makes progress via its `next_stream` method,
 /// this controller can be used to concurrently direct the connection,
 /// e.g. to open a new stream to the remote or to close the connection.
 ///

@@ -18,7 +18,7 @@ use std::{convert::TryInto, num::TryFromIntError};
 pub(crate) use io::Io;
 pub use io::FrameDecodeError;
 
-/// A Yamux message frame consisting of header and body.
+/// A Remux message frame consisting of header and body.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Frame<T> {
     header: Header<T>,

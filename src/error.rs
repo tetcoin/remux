@@ -16,7 +16,7 @@ use crate::frame::FrameDecodeError;
 pub enum ConnectionError {
     /// An underlying I/O error occured.
     Io(std::io::Error),
-    /// Decoding a Yamux message frame failed.
+    /// Decoding a Remux message frame failed.
     Decode(FrameDecodeError),
     /// The whole range of stream IDs has been used up.
     NoMoreStreamIds,

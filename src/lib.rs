@@ -8,7 +8,7 @@
 // at https://www.apache.org/licenses/LICENSE-2.0 and a copy of the MIT license
 // at https://opensource.org/licenses/MIT.
 
-//! This crate implements the [Yamux specification][1].
+//! This crate implements the [Remux specification][1].
 //!
 //! It multiplexes independent I/O streams over reliable, ordered connections,
 //! such as TCP/IP.
@@ -38,12 +38,12 @@ pub use crate::connection::{Connection, Mode, Control, Packet, Stream, into_stre
 pub use crate::error::ConnectionError;
 pub use crate::frame::{FrameDecodeError, header::{HeaderDecodeError, StreamId}};
 
-const DEFAULT_CREDIT: u32 = 256 * 1024; // as per yamux specification
+const DEFAULT_CREDIT: u32 = 256 * 1024; // as per remux specification
 
-/// Default maximum number of bytes a Yamux data frame might carry as its
+/// Default maximum number of bytes a Remux data frame might carry as its
 /// payload when being send. Larger Payloads will be split.
 ///
-/// The data frame payload size is not restricted by the yamux specification.
+/// The data frame payload size is not restricted by the remux specification.
 /// Still, this implementation restricts the size to:
 ///
 /// 1. Reduce delays sending time-sensitive frames, e.g. window updates.
@@ -83,7 +83,7 @@ pub enum WindowUpdateMode {
     OnRead
 }
 
-/// Yamux configuration.
+/// Remux configuration.
 ///
 /// The default configuration values are as follows:
 ///

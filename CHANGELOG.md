@@ -42,7 +42,7 @@ This version begins the upgrade process spawning multiple versions that
 changes the meaning of the initial window update from *"This is the total
 size of the receive window."* to *"This is the size of the receive window
 in addition to the default size."* This is necessary for compatibility
-with other yamux implementations. See issue #92 for details.
+with other remux implementations. See issue #92 for details.
 
 As a first step, version 0.5.0 interprets a non-standard flag to imply the
 new meaning. Future versions will set this flag and eventually the new
@@ -119,7 +119,7 @@ Update to use and work with async/await:
 - `Connection` no longer has methods to open a new stream or to close the
   connection. Instead a separate handle type `Control` has been added which
   allows these operations concurrently to the connection itself.
-- In Yamux 0.2.x every `StreamHandle` I/O operation would drive the
+- In Remux 0.2.x every `StreamHandle` I/O operation would drive the
   `Connection`. Now, the only way the `Connection` makes progress is through
   its `next_stream` method which must be called continuously. For convenience
   a function `into_stream` has been added which turns the `Connection` into
@@ -150,7 +150,7 @@ Update to use and work with async/await:
   frames up to this limit (see pull request #51).
 - Added `ConnectionError::TooManyPendingFrames` if `max_pending_frames` has been reached.
 - Changed error types of `Connection::close` and `Connection::flush` from `std::io::Error`
-  to `yamux::ConnectionError`.
+  to `remux::ConnectionError`.
 - Removed `Connection::shutdown` method which was deprecated since version 0.1.8.
 
 # 0.1.9

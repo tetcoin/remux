@@ -23,7 +23,7 @@ use parking_lot::{Mutex, MutexGuard};
 use std::{fmt, io, pin::Pin, sync::Arc, task::{Context, Poll, Waker}};
 use std::convert::TryInto;
 
-/// The state of a Yamux stream.
+/// The state of a Remux stream.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum State {
     /// Open bidirectionally.
@@ -67,7 +67,7 @@ pub(crate) enum Flag {
     Ack
 }
 
-/// A multiplexed Yamux stream.
+/// A multiplexed Remux stream.
 ///
 /// Streams are created either outbound via [`crate::Control::open_stream`]
 /// or inbound via [`crate::Connection::next_stream`].

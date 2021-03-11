@@ -13,7 +13,7 @@ use criterion::{BenchmarkId, criterion_group, criterion_main, Criterion, Through
 use futures::{channel::mpsc, future, prelude::*, io::AsyncReadExt};
 use std::sync::Arc;
 use tokio::{runtime::Runtime, task};
-use yamux::{Config, Connection, Mode};
+use remux::{Config, Connection, Mode};
 
 criterion_group!(benches, concurrent);
 criterion_main!(benches);
@@ -64,7 +64,7 @@ fn concurrent(c: &mut Criterion) {
 
 fn config() -> Config {
     let mut c = Config::default();
-    c.set_window_update_mode(yamux::WindowUpdateMode::OnRead);
+    c.set_window_update_mode(remux::WindowUpdateMode::OnRead);
     c
 }
 
@@ -103,7 +103,7 @@ async fn oneway(
 
     let conn = Connection::new(client, config(), Mode::Client);
     let mut ctrl = conn.control();
-    task::spawn(yamux::into_stream(conn).for_each(|r| {r.unwrap(); future::ready(())} ));
+    task::spawn(remux::into_stream(conn).for_each(|r| {r.unwrap(); future::ready(())} ));
 
     for _ in 0 .. nstreams {
         let data = data.clone();

@@ -316,7 +316,7 @@ impl std::hash::Hash for StreamId {
     }
 }
 
-impl nohash_hasher::IsEnabled for StreamId {}
+impl nohash::IsEnabled for StreamId {}
 
 /// Possible flags set on a message.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
