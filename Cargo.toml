@@ -16,7 +16,7 @@ documentation = "https://docs.rs/remux"
 futures = { version = "0.3.4", default-features = false, features = ["std"] }
 log = "0.4.8"
 nohash = "0.2"
-parking_lot = "0.11"
+parking_lot = "0.12"
 rand = "0.8.3"
 static_assertions = "1"
 
